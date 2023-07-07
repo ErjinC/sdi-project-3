@@ -1,0 +1,14 @@
+.eventListItem {
+    margin: 1rem;
+    border-style: solid;
+    width: 15rem;
+    padding: 1rem;
+    font-size: larger;
+    color: #4C3D3D;
+    border-color: #4C3D3D;
+}
+
+.eventListItem:hover {
+    color: coral;
+    border-color: coral;
+}

@@ -1,0 +1,19 @@
+body, html {
+  /* background: linear-gradient(
+  rgb(255, 247, 212) 85%,
+   rgb(255, 217, 90) 85%,
+   rgb(255, 217, 90) 90%,
+   rgb(192, 127, 0) 90%,
+   rgb(192, 127, 0) 95%,
+   rgb(76, 61, 61) 95%); */
+   /* background: linear-gradient(
+    rgb(255, 247, 212) 85%,
+    rgb(255, 217, 90) 90%,
+    rgb(192, 127, 0) 95%,
+    rgb(76, 61, 61)); */
+  background: rgb(255, 247, 212);
+  margin: 0;
+  height: 100%;
+  font-family: Luminari, fantasy;
+  color: #4C3D3D;
+}

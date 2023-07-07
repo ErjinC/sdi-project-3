@@ -1,0 +1,19 @@
+.flexcontainerapp {
+  display: flex;
+  flex-flow: column;
+  min-height: 100vh;
+}
+.footer {
+  width: 100%;
+  min-height: 100px;
+  background: linear-gradient(
+    rgb(255, 247, 212) 25%,
+     rgb(255, 217, 90) 25%,
+     rgb(255, 217, 90) 50%,
+     rgb(192, 127, 0) 50%,
+     rgb(192, 127, 0) 75%,
+     rgb(76, 61, 61) 75%);
+}
+.main {
+  flex-grow: 1;
+}

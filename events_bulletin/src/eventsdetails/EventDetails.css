@@ -1,0 +1,61 @@
+#eventInfoContainer {
+    position: absolute;
+    top: 50%;
+    left: 25%;
+    transform: translate(0px, -50%);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    border-style: solid;
+    border-color: #4C3D3D;
+    width: 50rem;
+    height: 30rem;
+    margin: 1rem;
+    padding: 1rem;
+    border-radius: 2rem;
+}
+
+#eventInfoContainer button {
+    background-color: #FFF7D4;
+    color: #4C3D3D;
+    font-size: 1.25rem;
+    width: 12rem;
+    border: solid;
+    border-radius: 0.5rem;
+    border-color: #FFF7D4;
+}
+
+#eventInfoContainer button:hover {
+    color: coral;
+}
+
+#eventInfo {
+    height: 100%;
+    width: 30%;
+    font-size: x-large;
+    color: #4C3D3D;
+    letter-spacing: 0.075rem;
+}
+
+#eventImage {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100%;
+    padding: 1rem;
+}
+
+#eventImage img {
+    height: 20rem;
+    width: 20rem;
+    border-style: solid;
+    border-color: #4C3D3D;
+    border-radius: 0.5rem;
+    display: block;
+    overflow: hidden;
+}
+
+span {
+    font-size: 1rem;
+}

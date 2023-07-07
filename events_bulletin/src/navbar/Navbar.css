@@ -1,0 +1,32 @@
+#navbarContainer {
+    background-color: #FFF7D4;
+    padding: .5rem;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    height: 3rem;
+    border-bottom: #4C3D3D;
+    border-bottom: solid;
+}
+
+#appTitle {
+    margin: 0;
+    font-size: 2rem;
+    color: #4C3D3D;
+    letter-spacing: 0.25rem;
+}
+
+.navButton {
+    border: none;
+    background-color: #FFF7D4;
+    font-size: 1.5rem;
+    color: #4C3D3D;
+    letter-spacing: 0.25rem;
+    height: 2rem;
+    margin: .25rem;
+}
+
+.navButton:hover {
+    color: coral;
+}
