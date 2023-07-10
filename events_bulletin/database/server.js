@@ -192,16 +192,10 @@ app.post('/events', (req, res) => {
 app.delete('/events/:id', (req, res) => {
   const { id } = req.params
   // const deletedEvent = req.body;
-  knex('users_events')
-    .select('*')
-    .where('event_id', id)
-    .del()
-    // .then(data =>{
-    //   knex('events')
-    //   .select('*')
-    //   .where('id', id)
-    //   .del()
-    // })
+  knex('events')
+      .select('*')
+      .where('id', id)
+      .del()
   //  .updates(deletedEvent[0])
    .then(data => {
     res.status(204).send('Event Was Deleted')

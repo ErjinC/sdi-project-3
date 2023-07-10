@@ -6,9 +6,9 @@ exports.up = function(knex) {
     return knex.schema.createTable('users_interests', table => {
         table.increments('id')
         table.integer('user_id')
-        table.foreign('user_id').references('users.id')
+        table.foreign('user_id').references('users.id').onDelete('cascade');
         table.integer('interest_id')
-        table.foreign('interest_id').references('interests.id')
+        table.foreign('interest_id').references('interests.id').onDelete('cascade');
     })
 };
 
