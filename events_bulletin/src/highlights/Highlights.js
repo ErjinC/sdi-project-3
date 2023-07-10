@@ -41,10 +41,10 @@ const Highlights = () => {
                 <div key={activeEvent.id} id="highlightContainer" onClick={()=>{
                     navigate(`/events/${activeEvent.id}`)
                 }}>
-                        <p>{activeEvent.name}</p>
-                        <p>{activeEvent.location}</p>
-                        <p>Attendees: {activeEvent.attendees.split(',').length}</p>
-                        <p>Details: {activeEvent.details.length > 250 ? truncate(activeEvent.details) : activeEvent.details}</p>
+                        <p><span>Name: </span>{activeEvent.name}</p>
+                        <p><span>Location: </span>{activeEvent.location}</p>
+                        <p><span>Attendees: </span>{activeEvent.attendees.split(',').length}</p>
+                        <p><span>Details: </span>{activeEvent.details.length > 250 ? truncate(activeEvent.details) : activeEvent.details}</p>
                 </div>
         )
     } else {

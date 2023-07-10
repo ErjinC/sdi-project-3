@@ -30,6 +30,7 @@ const Homepage = () => {
           GitHub Link
           {/* Change link to */}
         </Link>
+        <h2 id="popEvents">Popular Events:</h2>
         <Highlights/>
       </div>
     </>

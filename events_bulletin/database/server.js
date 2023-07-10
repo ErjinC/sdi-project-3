@@ -191,35 +191,15 @@ app.post('/events', (req, res) => {
 
 app.delete('/events/:id', (req, res) => {
   const { id } = req.params
-  // const deletedEvent = req.body;
+
   knex('events')
-      .select('*')
-      .where('id', id)
-      .del()
-  //  .updates(deletedEvent[0])
-   .then(data => {
-    res.status(204).send('Event Was Deleted')
-   })
+    .select('*')
+    .where('id', id)
+    .del()
+    .then(data => {
+      res.status(204).send('Event Was Deleted')
+    })
 })
-
-  // knex('events')
-  //   .select('id')
-  //   .from('events')
-  //   .where('id', eventToAdd.id)
-  //   .then((row) => {
-  //     if (!row) {
-  //       console.log("select id does not exist")
-  //       return res.send("did not exist")
-  //     }
-
-  //     return knex('events')
-  //       .update('event', req.body.event)
-  //       .where('id', row.id)
-  //       .then(data => res.status(200))
-
-  //       // return res.sendStatus(200);
-  //   });
-// });
 
 //! Add a patch to event
 app.patch('/events/:id', (req, res) => {
@@ -234,6 +214,12 @@ app.patch('/events/:id', (req, res) => {
       res.status(201).send('Event updated')
     })
 });
+
+app.all('*', (req, res) => {
+  res.status(200).send({
+    Error: 'Path not found.'
+  })
+})
 
 app.listen(8081, () => {
   console.log(`API Server is running on http.//localhost:${port}`);

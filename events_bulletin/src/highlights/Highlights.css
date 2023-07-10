@@ -8,6 +8,10 @@
     animation: slideIn 4s, slideOut 1s 4.75s;
 }
 
+#highlightContainer span {
+  color: #C07F00;
+}
+
 #highlightContainer:hover {
     color: coral;
     border-color: coral;

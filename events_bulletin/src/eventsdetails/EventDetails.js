@@ -1,6 +1,7 @@
 import './EventDetails.css'
 import React, {useEffect, useState} from 'react'
 import {useParams} from 'react-router-dom'
+import {Link} from 'react-router-dom';
 
 const EventDetails = () => {
 
@@ -34,7 +35,9 @@ const EventDetails = () => {
                             </div>
 
                             <div id="modifyButtons">
-                              <input type="button" value="Edit Event"></input>
+                              <input type="button" value="Edit Event" onClick={() => {
+                                window.location=`http://localhost:3000/events/edit/${id}`
+                              }}></input>
 
                               <input type="button" value="Delete Event" onClick={() => { //DELETE EVENT
 

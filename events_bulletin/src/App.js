@@ -7,6 +7,7 @@ import {BrowserRouter as Router, Routes, Route, Link} from 'react-router-dom';
 import EventDetails from './eventsdetails/EventDetails.js'
 import Templist from './tempList/Templist.js'
 import Highlights from './highlights/Highlights.js'
+import EventsEdit from './eventsedit/EventsEdit.js'
 import './App.css'
 
 
@@ -25,6 +26,7 @@ function App() {
           <Route path = '/events/create' element = {<EventsCreate/>} />
           <Route path = '/calendar' element ={<Calendar/>} />
           <Route path = '/test' element ={<Highlights/>} />
+          <Route path = '/events/edit/:id' element = {<EventsEdit/>} />
         </Routes>
       </div>
       <div className="footer">&nbsp;</div>

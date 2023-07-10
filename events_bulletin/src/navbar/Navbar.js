@@ -1,6 +1,8 @@
 import React from 'react'
 import { useNavigate } from 'react-router'
 import './Navbar.css'
+import { Link } from 'react-router-dom'
+
 
 
 const Navbar = () => {
@@ -19,7 +21,9 @@ const Navbar = () => {
                     navigate('/calendar')
                 }}>Calendar</button>
             </div>
-            <p id="appTitle">EVENT-TOOLY</p>
+            <p >
+                <Link id="appTitle" to= '/'>EVENT-TOOLY</Link>
+            </p>
         </div>
     )
 
