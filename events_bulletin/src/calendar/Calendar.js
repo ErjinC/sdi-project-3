@@ -1,12 +1,15 @@
 import React, { Component } from 'react';
 import './Calendar.css';
 import CalendarFunction from './CalendarFunction';
+import {Link} from 'react-router-dom'
+
+
 
 export default class Calendar extends Component {
   constructor() {
     super();
 
-    this.weekdays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+    this.weekdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
     this.months = ['January', 'February', 'March', 'April', 'May', 'June',
       'July', 'August', 'September', 'October', 'November', 'December'];
 
@@ -29,22 +32,29 @@ export default class Calendar extends Component {
 
   render() {
     return (
-      <div className="calendar">
+      <div id="calendar">
         <div className="calendar-header">
           <div className="title">
             <h2>{this.months[this.state.currentDay.getMonth()]} {this.state.currentDay.getFullYear()}</h2>
           </div>
           <div className="tools">
-            <button onClick={this.previousDay}>
+            <button className="toolButton navday" onClick={this.previousDay}>
               <span className="material-icons">
-                arrow_back
+               Back
               </span>
             </button>
             <p>{this.months[this.state.currentDay.getMonth()].substring(0, 3)} {this.state.currentDay.getDate()}</p>
-            <button onClick={this.nextDay}>
+            <button className="toolButton navday" onClick={this.nextDay}>
               <span className="material-icons">
-                arrow_forward
+                Forward
               </span>
+            </button>
+            <button className="toolButton" onClick={()=>{console.log(this.state.currentDay)}}>
+              <Link className="tblink" to={`/calendar/${this.state.currentDay.getFullYear()}-${this.state.currentDay.getMonth() + 1}-${this.state.currentDay.getDate()}`} style={{ textDecoration: 'none' }}>
+                <span className="material-icons">
+                  View Selected Day's Events
+                </span>
+              </Link>
             </button>
           </div>
         </div>
@@ -62,4 +72,3 @@ export default class Calendar extends Component {
     )
   }
 }
-//export default Calendar;

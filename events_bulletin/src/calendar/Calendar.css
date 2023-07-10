@@ -1,0 +1,76 @@
+.title {
+  text-align: center;
+}
+
+.title h2 {
+  margin: 0;
+}
+
+.tools {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.table-header{
+  display: grid;
+  grid-template-columns: repeat(7, 12rem);
+  grid-auto-flow: row;
+  justify-content: space-evenly;
+}
+
+.weekday {
+  text-align: center;
+  margin: 0;
+  font-size: 2rem;
+}
+
+.weekday p {
+  margin: 0;
+}
+
+.table-content {
+  display: grid;
+  grid-template-columns: repeat(7, 12rem);
+  grid-auto-flow: row;
+  justify-content: space-evenly;
+
+}
+
+.calendar-day {
+  border-style: solid;
+  border-radius: 0.5rem;
+  height: 10rem;
+  margin-top: 1rem;
+  padding: 1rem;
+  background-color: rgba(255, 217, 90, 0.267);
+}
+
+.calendar-day:hover {
+  color: coral;
+  border-color: coral;
+  cursor: pointer;
+}
+
+.toolButton {
+  margin-left: 1rem;
+  margin-right: 1rem;
+  color: #4C3D3D;
+  border-color: #4C3D3D;
+  border-radius: 0.25rem;
+}
+
+.toolButton:hover {
+  color: coral;
+  border-color: coral;
+  cursor: pointer;
+}
+
+.navday {
+  width: 5rem;
+}
+
+.tblink:hover {
+  color: coral;
+}

@@ -29,4 +29,5 @@
 
 .navButton:hover {
     color: coral;
+    cursor: pointer;
 }

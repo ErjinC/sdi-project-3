@@ -1,6 +1,8 @@
 import React from 'react'
 import {Link} from 'react-router-dom';
 import './Homepage.css'
+import Highlights from '../highlights/Highlights.js'
+
 
 const Homepage = () => {
   return (
@@ -19,19 +21,21 @@ const Homepage = () => {
           Made by SDI-17 Group 5
         </div>
 
-        <Link to={'/events/create'} className='started'>
+        <Link to={'/events/create'} className='started hplink'>
           Click Here To Get Started!
           {/* Change link to */}
         </Link>
 
-        <Link to={'https://github.com/ErjinC/sdi-blended-workshop-databases-scaffold'} className='started'>
+        <Link to={'https://github.com/ErjinC/sdi-blended-workshop-databases-scaffold'} className='started hplink'>
           GitHub Link
           {/* Change link to */}
         </Link>
-
+        <Highlights/>
       </div>
     </>
-  )
+
+
+ )
 }
 
-export default Homepage
+export default Homepage;

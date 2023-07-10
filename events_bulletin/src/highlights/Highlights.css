@@ -1,0 +1,36 @@
+#highlightContainer {
+    border-style: solid;
+    border-radius: 0.5rem;
+    padding: 1rem;
+    margin: 1rem;
+    width: 30rem;
+    height: 15rem;
+    animation: slideIn 4s, slideOut 1s 4.75s;
+}
+
+#highlightContainer:hover {
+    color: coral;
+    border-color: coral;
+    cursor: pointer;
+}
+
+@keyframes slideIn {
+    0% {
+      transform: translateX(9000px);
+    }
+    30% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(0);
+    }
+}
+
+@keyframes slideOut {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-9000px);
+    }
+}

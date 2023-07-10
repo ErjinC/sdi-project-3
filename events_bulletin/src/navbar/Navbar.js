@@ -13,9 +13,6 @@ const Navbar = () => {
                     navigate('/')
                 }}>Home</button>
                 <button className="navButton" onClick={()=>{
-                    navigate('/events')
-                }}>View Events</button>
-                <button className="navButton" onClick={()=>{
                     navigate('/events/create')
                 }}>Create Event</button>
                 <button className="navButton" onClick={()=>{

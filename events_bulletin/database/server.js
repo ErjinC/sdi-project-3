@@ -24,21 +24,61 @@ app.get('/events', (req, res) => {
     .select(
       'events.id',
       'events.name',
-      'users.name AS organizer_name',
+      'organizer.name AS organizer_name',
       'events.details',
       'events.location',
       'events.date',
       'events.time',
       'interests.name AS genre_name',
-      knex.raw("STRING_AGG(users.name, ', ') AS attendees")
-    )
-    .join('users', 'events.organizer_id', '=', 'users.id')
+      knex.raw("STRING_AGG(DISTINCT attendees.name, ', ') AS attendees")
+      )
+    .join('users AS organizer', 'events.organizer_id', '=', 'organizer.id')
+    .join('users_events', 'events.id', '=', 'users_events.event_id')
+    .join('users AS attendees', 'users_events.user_id', '=', 'attendees.id')
     .join('interests', 'events.genre_id', '=', 'interests.id')
-    .leftJoin('users_events', 'events.id', '=', 'users_events.event_id')
     .groupBy(
       'events.id',
       'events.name',
-      'users.name',
+      'organizer.name',
+      'events.details',
+      'events.location',
+      'events.date',
+      'events.time',
+      'interests.name'
+    )
+    .then(data => res.status(200).send(data))
+});
+
+//get all events for a selected day
+app.get('/calendar/:day', (req, res) => {
+  let date = req.params.day;
+  let dateParts = date.split('-');
+  let newDate = new Date();
+  newDate.setDate(dateParts[2])
+  newDate.setFullYear(dateParts[0])
+  newDate.setMonth(dateParts[1])
+
+  knex('events')
+    .select(
+      'events.id',
+      'events.name',
+      'organizer.name AS organizer_name',
+      'events.details',
+      'events.location',
+      'events.date',
+      'events.time',
+      'interests.name AS genre_name',
+      knex.raw("STRING_AGG(DISTINCT attendees.name, ', ') AS attendees")
+      )
+      .join('users AS organizer', 'events.organizer_id', '=', 'organizer.id')
+      .join('users_events', 'events.id', '=', 'users_events.event_id')
+      .join('users AS attendees', 'users_events.user_id', '=', 'attendees.id')
+      .join('interests', 'events.genre_id', '=', 'interests.id')
+      .where('date', '=', newDate)
+    .groupBy(
+      'events.id',
+      'events.name',
+      'organizer.name',
       'events.details',
       'events.location',
       'events.date',
@@ -55,22 +95,23 @@ app.get('/events/:id', (req, res) => {
     .select(
       'events.id',
       'events.name',
-      'users.name AS organizer_name',
+      'organizer.name AS organizer_name',
       'events.details',
       'events.location',
       'events.date',
       'events.time',
       'interests.name AS genre_name',
-      knex.raw("STRING_AGG(users.name, ', ') AS attendees")
-    )
+      knex.raw("STRING_AGG(DISTINCT attendees.name, ', ') AS attendees")
+      )
     .where('events.id', id)
-    .join('users', 'events.organizer_id', '=', 'users.id')
+    .join('users AS organizer', 'events.organizer_id', '=', 'organizer.id')
+    .join('users_events', 'events.id', '=', 'users_events.event_id')
+    .join('users AS attendees', 'users_events.user_id', '=', 'attendees.id')
     .join('interests', 'events.genre_id', '=', 'interests.id')
-    .leftJoin('users_events', 'events.id', '=', 'users_events.event_id')
     .groupBy(
       'events.id',
       'events.name',
-      'users.name',
+      'organizer.name',
       'events.details',
       'events.location',
       'events.date',
@@ -105,70 +146,101 @@ app.get('/interests', (req, res) => {
 //! GET events filtered by date
 app.get('/dateFilter', (req, res) => {
   let date = req.query.date;
+  let dateParts = date.split('-');
+  let newDate = new Date();
+  newDate.setDate(dateParts[2])
+  newDate.setFullYear(dateParts[0])
+  newDate.setMonth(dateParts[1])
 
   knex('events')
     .select('*')
-    .whereLike('date', `%${date}%`)
-    .then(data => res.status(200).send(JSON.stringify(data)));
+    .where('date', '=', newDate)
+    .then(data => res.status(200).send(data));
 })
 
 //! POST new event
 app.post('/events', (req, res) => {
   const eventToAdd = req.body;
+  console.log(eventToAdd[0])
+  let newEventId;
 
   knex('events')
-    .select('id')
-    .from('events')
-    .where('id', eventToAdd.id)
-    .then((row) => {
-      if (!row) {
-        console.log("select id does not exist")
-        return res.send("did not exist")
-      }
+    .count('*')
+    // .then(data => Number(data[0].count))
+    .then(data => {
+      newEventId = Number(data[0].count)+1
+      eventToAdd[0].id = newEventId
 
       return knex('events')
-        .update('event', req.body.event)
-        .where('id', row.id)
-        .then(data => res.status(200))
+        .insert(eventToAdd[0])
+    })
+    .then(data => {
+      return knex('events')
+        .where('id', newEventId)
+        .select('organizer_id')
+    })
+    .then(data => {
+      const organizerId = data[0].organizer_id
 
-        // return res.sendStatus(200);
-    });
-});
-//Add a patch to event
-// app.patch('/events/:id', (req, res) => {
-//   const { id } = req.params;
-//   const { updatedEvent } = req.body;
+      return knex('users_events')
+        .insert({user_id: organizerId, event_id: newEventId})
 
-//   let eventToUpdate = eventsArr.find(event => event.id === id);
-//   if (!eventToUpdate) {
-//     return res.sendStatus(404);
-//   }
+    })
+    .then(data => res.status(201).send(`${eventToAdd[0].name} added successfully`))
+  })
 
-//   eventToUpdate.event = updatedEvent;
+app.delete('/events/:id', (req, res) => {
+  const { id } = req.params
+  // const deletedEvent = req.body;
+  knex('users_events')
+    .select('*')
+    .where('event_id', id)
+    .del()
+    // .then(data =>{
+    //   knex('events')
+    //   .select('*')
+    //   .where('id', id)
+    //   .del()
+    // })
+  //  .updates(deletedEvent[0])
+   .then(data => {
+    res.status(204).send('Event Was Deleted')
+   })
+})
 
-//   res.sendStatus(204);
+  // knex('events')
+  //   .select('id')
+  //   .from('events')
+  //   .where('id', eventToAdd.id)
+  //   .then((row) => {
+  //     if (!row) {
+  //       console.log("select id does not exist")
+  //       return res.send("did not exist")
+  //     }
+
+  //     return knex('events')
+  //       .update('event', req.body.event)
+  //       .where('id', row.id)
+  //       .then(data => res.status(200))
+
+  //       // return res.sendStatus(200);
+  //   });
 // });
 
-// app.delete('/events/:id', (req, res) => {
-//   const { id } = req.params;
-//   const updatedEvent = eventsArr.filter(event => event.id !== id);
-//   eventsArr = updatedEvent;
+//! Add a patch to event
+app.patch('/events/:id', (req, res) => {
+  const { id } = req.params;
+  const  updatedEvent = req.body;
 
-//   res.send("Event Has Been Deleted.")
-// })
-
-
-
+  knex('events')
+    .select('*')
+    .where('id', id)
+    .update(updatedEvent[0])
+    .then(data => {
+      res.status(201).send('Event updated')
+    })
+});
 
 app.listen(8081, () => {
   console.log(`API Server is running on http.//localhost:${port}`);
 });
-
-
-
-
-
-
-
-
-

@@ -25,13 +25,27 @@ const EventDetails = () => {
                             <p>Time: <span>{eventInfo.time}</span></p>
                             <p>Attendees: <span>{eventInfo.attendees.split(',').length}</span></p>
                         </div>
+
                         <div id="eventImage">
                             <img alt="some image here"/><br/>
                             <div id="idButtons">
                                 <button>Sign Me Up!</button>
                                 <button>Contact Organizer</button>
                             </div>
+
+                            <div id="modifyButtons">
+                              <input type="button" value="Edit Event"></input>
+
+                              <input type="button" value="Delete Event" onClick={() => { //DELETE EVENT
+
+                                fetch(`http://localhost:8081/events/${window.location.href.slice(-1)}`, { method: 'DELETE' })
+                                  .then(() => console.log('Deleted!'))
+                                  .catch((error) => console.error('Error:', error));
+                                }}></input>
+
+                            </div>
                         </div>
+
                     </div>
                 </>
             )

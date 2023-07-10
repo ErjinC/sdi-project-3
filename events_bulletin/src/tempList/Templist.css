@@ -11,4 +11,5 @@
 .eventListItem:hover {
     color: coral;
     border-color: coral;
+    cursor: pointer;
 }

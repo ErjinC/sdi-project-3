@@ -1,4 +1,5 @@
 import CalendarItem from '../calendarItem/CalendarItem'
+import './Calendar.css';
 
 function CalendarFunction(props) {
     const firstDayOfMonth = new Date(props.day.getFullYear(), props.day.getMonth(), 1);

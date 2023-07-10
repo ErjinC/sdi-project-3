@@ -28,6 +28,7 @@
 
 #eventInfoContainer button:hover {
     color: coral;
+    cursor: pointer;
 }
 
 #eventInfo {
@@ -54,6 +55,9 @@
     border-radius: 0.5rem;
     display: block;
     overflow: hidden;
+}
+#modifyButtons {
+    margin-top: 2rem;
 }
 
 span {
