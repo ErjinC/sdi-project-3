@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState, useEffect, useRef} from 'react'
 import './Highlights.css'
 import {useNavigate} from 'react-router-dom'
 import Slide from '@mui/material/Slide';
@@ -10,12 +10,24 @@ const Highlights = () => {
     const [curIndex, setCurIndex] = useState(0);
     const [activeEvent, setActiveEvent] = useState([]);
     const navigate = useNavigate();
+    const didMount = useRef(false);
 
     useEffect(()=> {
         fetch(`http://localhost:8081/events`)
             .then(res => res.json())
             .then(data => setEventList(data))
     },[])
+
+    useEffect(() => {
+        if (!didMount.current) {
+            didMount.current = true;
+        }
+        eventList.sort((a, b) => b.attendees.split(',').length - a.attendees.split(',').length)
+    }, [eventList])
+
+    if(eventList.length > 5) {
+        setEventList(eventList.slice(0, 5));
+    }
 
     useEffect(() => {
         //Implementing the setInterval method

@@ -14,6 +14,7 @@ exports.up = function(knex) {
         table.time('time')
         table.integer('genre_id')
         table.foreign('genre_id').references('interests.id').onDelete('cascade');
+        table.text('imgPath')
     })
 };
 

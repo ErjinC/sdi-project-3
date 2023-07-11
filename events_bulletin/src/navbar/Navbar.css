@@ -28,7 +28,30 @@
     margin: .25rem;
 }
 
-.navButton:hover {
+.navButton:hover{
     color: coral;
     cursor: pointer;
+}
+
+#appTitle {
+    color: #4C3D3D;
+}
+
+#appTitle:hover {
+    color: coral;
+}
+
+#searchCon {
+    display: flex;
+}
+
+#navSearch {
+    margin-right: 1rem;
+    padding: 0.25rem;
+    outline: none;
+}
+
+#navSearch:focus {
+    outline: solid 0.025rem coral;
+    color: #4C3D3D;
 }

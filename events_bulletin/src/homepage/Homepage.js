@@ -2,6 +2,9 @@ import React from 'react'
 import {Link} from 'react-router-dom';
 import './Homepage.css'
 import Highlights from '../highlights/Highlights.js'
+import Review from './Review.js'
+
+
 
 
 const Homepage = () => {
@@ -32,6 +35,10 @@ const Homepage = () => {
         </Link>
         <h2 id="popEvents">Popular Events:</h2>
         <Highlights/>
+
+        <Link to={'/reviews'} className='Review'>
+          reviews
+        </Link>
       </div>
     </>
 

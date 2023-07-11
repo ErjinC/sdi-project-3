@@ -2,14 +2,14 @@
     position: absolute;
     top: 50%;
     left: 25%;
-    transform: translate(0px, -50%);
+    transform: translate(-20%, -50%);
     display: flex;
     flex-direction: row;
     align-items: center;
-    justify-content: space-between;
+    justify-content: space-evenly;
     border-style: solid;
     border-color: #4C3D3D;
-    width: 50rem;
+    width: 80%;
     height: 30rem;
     margin: 1rem;
     padding: 1rem;
@@ -20,7 +20,7 @@
     background-color: #FFF7D4;
     color: #4C3D3D;
     font-size: 1.25rem;
-    width: 12rem;
+    width: 12;
     border: solid;
     border-radius: 0.5rem;
     border-color: #FFF7D4;
@@ -33,10 +33,13 @@
 
 #eventInfo {
     height: 100%;
-    width: 30%;
+    width: 50%;
     font-size: x-large;
     color: #4C3D3D;
     letter-spacing: 0.075rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
 }
 
 #eventImage {
@@ -45,6 +48,23 @@
     align-items: center;
     height: 100%;
     padding: 1rem;
+}
+#eventPoints {
+    flex: 1 1 0;
+    padding-left: 1rem;
+}
+
+#eventPoints > * {
+    margin: 0;
+    margin-bottom: 1rem;
+}
+#eventPoints > p > span {
+    font-family: inherit;
+    font-weight: normal;
+    color: rgb(76, 61, 61)
+}
+#eventPoints > p {
+    color: rgb(192, 127, 0);
 }
 
 #eventImage img {
@@ -63,3 +83,18 @@
 span {
     font-size: 1rem;
 }
+#modifyButtons > input {
+    margin: 1rem;
+    background: none;
+    color: inherit;
+    border: 2px ridge ridge rgb(192, 127, 0);
+    padding: 0;
+    font: inherit;
+    cursor: pointer;
+    outline: inherit;
+    font-size: 25px;
+    padding: 1rem;
+  }
+#modifyButtons > *:hover {
+    color: coral;
+  }

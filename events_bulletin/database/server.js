@@ -3,6 +3,8 @@
 // const saltRounds = 10;
 // const myPlaintextPassword = 'IloveReact'
 const express = require('express');
+const bcrypt = require('bcrypt');
+const saltRounds = 10;
 const app = express();
 const port = 8081;
 const knex = require('knex')(require('./knexfile.js')['development']);
@@ -30,7 +32,8 @@ app.get('/events', (req, res) => {
       'events.date',
       'events.time',
       'interests.name AS genre_name',
-      knex.raw("STRING_AGG(DISTINCT attendees.name, ', ') AS attendees")
+      knex.raw("STRING_AGG(DISTINCT attendees.name, ', ') AS attendees"),
+      'events.imgPath'
       )
     .join('users AS organizer', 'events.organizer_id', '=', 'organizer.id')
     .join('users_events', 'events.id', '=', 'users_events.event_id')
@@ -44,7 +47,8 @@ app.get('/events', (req, res) => {
       'events.location',
       'events.date',
       'events.time',
-      'interests.name'
+      'interests.name',
+      'events.imgPath'
     )
     .then(data => res.status(200).send(data))
 });
@@ -68,7 +72,8 @@ app.get('/calendar/:day', (req, res) => {
       'events.date',
       'events.time',
       'interests.name AS genre_name',
-      knex.raw("STRING_AGG(DISTINCT attendees.name, ', ') AS attendees")
+      knex.raw("STRING_AGG(DISTINCT attendees.name, ', ') AS attendees"),
+      'events.imgPath'
       )
       .join('users AS organizer', 'events.organizer_id', '=', 'organizer.id')
       .join('users_events', 'events.id', '=', 'users_events.event_id')
@@ -83,7 +88,8 @@ app.get('/calendar/:day', (req, res) => {
       'events.location',
       'events.date',
       'events.time',
-      'interests.name'
+      'interests.name',
+      'events.imgPath'
     )
     .then(data => res.status(200).send(data))
 });
@@ -91,6 +97,15 @@ app.get('/calendar/:day', (req, res) => {
 //! GET single event with id param, including participants
 app.get('/events/:id', (req, res) => {
   const { id } = req.params;
+
+  function hasNumber(myString) {
+    return /\d/.test(myString);
+  }
+
+  if(!hasNumber(id)) {
+    return res.status(404).send({error: 'invalid id'})
+  }
+
   knex('events')
     .select(
       'events.id',
@@ -101,7 +116,8 @@ app.get('/events/:id', (req, res) => {
       'events.date',
       'events.time',
       'interests.name AS genre_name',
-      knex.raw("STRING_AGG(DISTINCT attendees.name, ', ') AS attendees")
+      knex.raw("STRING_AGG(DISTINCT attendees.name, ', ') AS attendees"),
+      'events.imgPath'
       )
     .where('events.id', id)
     .join('users AS organizer', 'events.organizer_id', '=', 'organizer.id')
@@ -116,10 +132,19 @@ app.get('/events/:id', (req, res) => {
       'events.location',
       'events.date',
       'events.time',
-      'interests.name'
+      'interests.name',
+      'events.imgPath'
     )
     .then(data => res.status(200).send(data))
 });
+
+app.get('/users', (req,res) => {
+  knex('users')
+    .select('*')
+    .then(data => {
+      res.status(200).send(data)
+    })
+})
 
 //! GET single user with id param, including interests
 app.get('/user/:id', (req, res) => {
@@ -142,6 +167,29 @@ app.get('/interests', (req, res) => {
     .select('*')
     .then(data => res.status(200).send(data))
 });
+
+app.get('/search/:search', (req,res) => {
+  let searchString = req.params.search;
+
+  if(typeof searchString !== 'string') {
+    searchString.toString();
+  }
+  knex('events')
+    .join('users', 'events.organizer_id', 'users.id')
+    .select('date', 'events.name as name', 'users.name as user_name', 'users.id as user_id', 'events.id as id', 'events.location as location')
+    .whereILike('events.name', `%${searchString}%`)
+    .orWhere('details', 'ilike', `%${searchString}%`)
+    .orWhere('events.location', 'ilike', `%${searchString}%`)
+    .orWhere('users.name', 'ilike', `%${searchString}%`)
+    .then(data => res.status(200).send(data));
+})
+
+app.get('/search/', (req,res) => {
+  knex('events')
+      .join('users', 'events.organizer_id', 'users.id')
+      .select('date', 'events.name as name', 'users.name as user_name', 'users.id as user_id', 'events.id as id', 'events.location as location')
+      .then(data => res.status(200).send(data));
+})
 
 //! GET events filtered by date
 app.get('/dateFilter', (req, res) => {
@@ -214,6 +262,46 @@ app.patch('/events/:id', (req, res) => {
       res.status(201).send('Event updated')
     })
 });
+app.post('/register', (req,res) => {
+  const newUser = req.body;
+  const tempPass = newUser.password;
+  let failMessage = {};
+  let failure = false;
+
+  bcrypt.hash(tempPass, saltRounds)
+    .then(data => {newUser.password = data})
+    .then(async data => {
+      await knex('users')
+        .count('email')
+        .where('email', '=', newUser.email)
+        .then(data => {
+          if(data[0].count > 0) {
+            failure = true;
+            failMessage.email = 'Email already in use!'
+          }
+        });
+      await knex('users')
+        .count('username')
+        .where('username', '=', newUser.username)
+        .then(data => {
+          if(data[0].count > 0) {
+            failure = true;
+            failMessage.username = 'Username Taken!'
+          }
+        });
+    })
+  .then(data => {
+    data = failMessage;
+    if(failure) {
+      console.log(data)
+      return res.status(201).send(data)
+    } else {
+      knex('users')
+        .insert(newUser)
+        .then(data => res.status(201).send("Success! Thank you for registering!"))
+    }
+  })
+})
 
 app.all('*', (req, res) => {
   res.status(200).send({

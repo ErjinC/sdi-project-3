@@ -1,0 +1,31 @@
+#regCon {
+    margin-left: 1rem;
+    letter-spacing: 0.1rem;
+}
+
+#regCon input {
+    width: 15rem;
+}
+
+#subBtn {
+    margin-top: 1rem;
+    width: 5rem;
+    color: #4C3D3D;
+    border-style: solid;
+    border-color: #4C3D3D;
+    border-radius: 0.25rem;
+    background-color: #FFF7D4;
+
+}
+
+#subBtn:hover {
+    color: coral;
+    border-color: coral;
+    cursor: pointer;
+}
+
+#subBtn:disabled {
+    color: darkgrey;
+    border-color: darkgrey;
+    cursor: not-allowed;
+}
