@@ -18,7 +18,6 @@ async function loginUser(userData) {
 export default function UserLogin({ setToken }) {
   const [username, setUserName] = useState();
   const [password, setPassword] = useState();
-  const [DBPassword, setDBPassword] = useState();
   const navigate = useNavigate();
   const alert = useAlert();
   const sendSubmit = async e => {
@@ -44,22 +43,20 @@ export default function UserLogin({ setToken }) {
         </label>
         <div>
           <input type="button" value ="Submit"onClick={() => {
-            const init = {
-              method: 'POST',
-              headers: {'Content-Type': 'application/json'},
-              body: JSON.stringify(password)
-            }
 
             if(password) {
-              fetch('http://localhost:8081/login', init)
+              fetch(`http://localhost:8081/login?username=${username}&password=${password}`)
                 .then(data => {
-                  if (data.status === 201) {
-                    alert.success('Logging Successful!', {
+                  if (data.status === 200) {
+                    alert.success('Login Successful!', {
                         timeout: 2000,
                         onClose: () => {
                           navigate('/')
                         }
-                    })}})
+                    })} else if (data.status === 400) {
+                      alert.error('Wrong Password!', {timeout: 2000})
+                  }
+                  })
               } else {
                   alert.error('User Not Found / Password Incorrect')
             }}}/>

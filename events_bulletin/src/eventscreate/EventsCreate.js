@@ -108,6 +108,7 @@ const EventsCreate = () => {
                 // .then(response => response.json())
                 .then(data => console.log(data))
                 .catch((error) => console.error('Error:', error))
+              window.location = `http://localhost:3000/calendar`
             }
           }}>
           </input>

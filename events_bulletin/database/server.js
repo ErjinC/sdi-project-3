@@ -10,6 +10,7 @@ const port = 8081;
 const knex = require('knex')(require('./knexfile.js')['development']);
 const cors = require("cors");
 
+
 app.use(cors({
   origin: 'http://localhost:3000'
 }));
@@ -324,7 +325,7 @@ app.post('/register', (req,res) => {
 })
 
 app.get('/login', (req,res) => {
-  const newUser = req.body;
+  const newUser = req.query;
   const tempPass = newUser.password;
 
   knex('users')

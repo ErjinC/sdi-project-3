@@ -12,7 +12,7 @@
   margin-top: 1rem;
 }
 #popEvents{
-  margin-top: 5rem;
+  margin-top: 2rem;
 }
 .credits {
   font-size: 2rem;
@@ -27,6 +27,7 @@
 .hplink {
   text-decoration: none;
   color: #4C3D3D;
+  margin-bottom: 10px;
 }
 
 .hplink:hover {
