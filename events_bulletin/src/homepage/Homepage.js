@@ -29,16 +29,19 @@ const Homepage = () => {
           {/* Change link to */}
         </Link>
 
-        <Link to={'https://github.com/ErjinC/sdi-blended-workshop-databases-scaffold'} className='started hplink'>
+        <Link to={'https://github.com/ErjinC/sdi-project-3/tree/main'} className='started hplink'>
           GitHub Link
           {/* Change link to */}
         </Link>
+
+        <Link to={'/reviews'} className='started hplink'>
+          Review Our App!
+        </Link>
+
         <h2 id="popEvents">Popular Events:</h2>
         <Highlights/>
 
-        <Link to={'/reviews'} className='Review'>
-          reviews
-        </Link>
+
       </div>
     </>
 

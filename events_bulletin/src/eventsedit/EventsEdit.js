@@ -137,6 +137,7 @@ const EventsEdit = () => {
 
         <div id='uploadedImg'>
             {selectedImage?<img src = {selectedImage} alt =''/>:<p>No Image Uploaded</p>}
+
           </div>
 
       </div>

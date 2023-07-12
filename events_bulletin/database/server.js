@@ -237,6 +237,24 @@ app.post('/events', (req, res) => {
     .then(data => res.status(201).send(`${eventToAdd[0].name} added successfully`))
   })
 
+  app.post('/users_events', (req, res) => {
+    const attendeeToAdd = req.body
+    console.log(attendeeToAdd[0].user_id)
+
+    knex('users_events')
+      .count('*')
+      .where('user_id', '=', attendeeToAdd[0].user_id)
+      .where('event_id', '=', attendeeToAdd[0].event_id)
+      .then(data => {
+        if (data[0].count > 0) {
+          console.log('Duplicate entry!')
+      } else {
+        knex('users_events')
+        .insert(attendeeToAdd)
+        .then(data => res.status(201))
+      }})
+  })
+
 app.delete('/events/:id', (req, res) => {
   const { id } = req.params
 
@@ -262,6 +280,8 @@ app.patch('/events/:id', (req, res) => {
       res.status(201).send('Event updated')
     })
 });
+
+
 app.post('/register', (req,res) => {
   const newUser = req.body;
   const tempPass = newUser.password;
@@ -294,13 +314,57 @@ app.post('/register', (req,res) => {
     data = failMessage;
     if(failure) {
       console.log(data)
-      return res.status(201).send(data)
+      return res.status(400).send(data)
     } else {
       knex('users')
         .insert(newUser)
         .then(data => res.status(201).send("Success! Thank you for registering!"))
     }
   })
+})
+
+app.get('/login', (req,res) => {
+  const newUser = req.body;
+  const tempPass = newUser.password;
+
+  knex('users')
+    .count('username')
+    .where('username', '=', newUser.username)
+    .then(async data => {
+      if(data[0].count === '1') {
+       await knex('users')
+          .select('password')
+          .where('username', '=', newUser.username)
+          .then(data => {
+            bcrypt.compare(`${tempPass}`, `${data[0].password}`).then(function(result) {
+              if(result) {
+                res.status(200).send('Login Success!')
+              } else {
+                res.status(400).send('Wrong Password!')
+              }
+            });
+          })
+      } else {
+        res.status(400).send('Username Not Found!')
+      }
+    })
+})
+
+app.post('/reviews', (req, res) => {
+  const newReview = req.body;
+
+  knex('reviews')
+    .insert(newReview)
+    .then((data) => {
+      res.status(201).send('Review posted')
+    })
+
+})
+
+app.get('/reviews', (req, res) => {
+  knex('reviews')
+    .select('*')
+    .then((data) => res.status(200).send(data))
 })
 
 app.all('*', (req, res) => {

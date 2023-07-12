@@ -38,9 +38,29 @@ console.log(eventInfo)
 
                         <img src={eventInfo.imgPath} alt="logo here"/><br/>
 
-                        <div id=".">
-                            <button>Sign Me Up!</button>
-                            <button>Contact Organizer</button>
+                        <div>
+                            <input type="button" value="Sign Up for This Event!" onClick={() => {
+
+                                let resBody = [{
+                                    'user_id': document.getElementById('user_id').value,
+                                    'event_id': id
+                                }]
+                                const init = {
+                                    method: 'POST',
+                                    headers: {'Content-Type': 'application/json'},
+                                    body: JSON.stringify(resBody)
+                                };
+
+                                fetch('http://localhost:8081/users_events', init)
+                                    // .then(response => response.json())
+                                    .then(data => console.log(data))
+                                    .catch((error) => console.error('Error:', error))
+
+                                window.location.href=window.location.href;
+
+                            }}></input>
+                            <input id='user_id' type="text" placeholder="PLS ADD USER (CRASH)"></input>
+                            {/* <button>Contact Organizer</button> */}
                         </div>
 
                         <div id="modifyButtons">

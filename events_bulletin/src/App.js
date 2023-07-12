@@ -16,9 +16,23 @@ import Register from './register/Register.js'
 import './App.css'
 // import Stars from './stars/Stars.js'
 
+function setToken(userToken) {
+  sessionStorage.setItem('token', JSON.stringify(userToken));
+}
 
+function getToken() {
+  const tokenString = sessionStorage.getItem('token');
+  const userToken = JSON.parse(tokenString);
+  return userToken?.token
+}
 
 function App() {
+   const token = getToken();
+
+  // if(!token) {
+  //   return < UserLogin setToken={setToken} />
+  //  }
+
   return (
     <div className='flexcontainerapp'>
       <Navbar/>

@@ -33,7 +33,8 @@ function CalendarFunction(props) {
           currentDays.map((day) => {
             return (
               <div className={"calendar-day" + (day.currentMonth ? " current" : "") + (day.selected ? " selected" : "")}
-                    onClick={() => props.changeCurrentDay(day)}>
+                    onClick={() => props.changeCurrentDay(day)}
+                    onDoubleClick ={()=> window.location = `http://localhost:3000/calendar/${day.year}-${day.month+1}-${day.number}`}>
                 <p>{day.number}<CalendarItem date={day}/></p>
               </div>
             )

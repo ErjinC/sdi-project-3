@@ -1,4 +1,6 @@
 import React, {useState, useEffect} from 'react'
+import {useNavigate} from 'react-router-dom'
+import { useAlert } from 'react-alert'
 import './Register.css'
 
 const Register = () => {
@@ -10,6 +12,7 @@ const Register = () => {
     const [email, setEmail] = useState('');
     const [phoneNum, setPhoneNum] = useState('');
     const [passMatch, setPassMatch] = useState(false);
+    const alert = useAlert()
     const newUser = {
         'name': fullname,
         'location': location,
@@ -18,6 +21,7 @@ const Register = () => {
         'email': email,
         'phone': phoneNum
     }
+    const navigate = useNavigate();
 
     useEffect(() => {
         if(!passMatch) {
@@ -68,7 +72,18 @@ const Register = () => {
                       };
 
                     fetch('http://localhost:8081/register', init)
-                        .then(data => console.log(data))
+                        .then(data => {
+                            if (data.status === 201) {
+                                alert.success('Thank you for registering!', {
+                                    timeout: 2000,
+                                    onClose: () => {
+                                      navigate('/')
+                                    }
+                                  })
+                            } else if (data.status === 400) {
+                                alert.error('Username or Email already in use!', {timeout: 2000})
+                            }
+                        })
                         .catch((error) => console.error('Error:', error))
                 }
             }}>Submit</button>
