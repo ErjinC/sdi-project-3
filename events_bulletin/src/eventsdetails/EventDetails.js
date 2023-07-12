@@ -59,7 +59,7 @@ console.log(eventInfo)
                                 window.location.href=window.location.href;
 
                             }}></input>
-                            <input id='user_id' type="text" placeholder="PLS ADD USER (CRASH)"></input>
+                            <input id='user_id' type="text" placeholder="Must Add User ID"></input>
                             {/* <button>Contact Organizer</button> */}
                         </div>
 
